@@ -5,7 +5,7 @@ CFLAGS = -Wall -c $(DEBUG)
 LFLAGS = -Wall $(DEBUG)
 
 BTree: $(OBJS)
-	$(CC) $(LFLAGS) $(OBJS) -o BTree
+	$(CC) $(LFLAGS) $(OBJS) -o treesearch
 
 Helper.o: Helper.h Helper.cpp
 	$(CC) $(CFLAGS) Helper.cpp
@@ -17,4 +17,4 @@ BTree.o: Helper.h BTreeTypeDefinitions.h Helper.h
 	$(CC) $(CFLAGS) BTree.cpp
 
 clean:
-	\rm *.o *~ BTree
+	\rm *.o treesearch

@@ -18,9 +18,10 @@ int main(int argc, char *argv[])
     BTree* bt;
     int m;
     string line;
+    char opFileName[] = "output_file.txt";
 
     ifstream ipFile (argv[1]);
-    ofstream opFile (argv[2]);
+    ofstream opFile (opFileName);
     
     if (ipFile.is_open())
     {
@@ -68,7 +69,7 @@ int main(int argc, char *argv[])
                     SearchResult* sr = searchKeyBTree(bt, key1);
                     if (sr != NULL)
                     {
-                        for (int i = 0; i < sr->n->values[sr->pos].size(); i++)
+                        for (int i = 0; i < (int)sr->n->values[sr->pos].size(); i++)
                         {
                             // cout << ((i == 0) ? (sr->n->values[sr->pos][i]) : ("," + sr->n->values[sr->pos][i]));
                             opFile << ((i == 0) ? (sr->n->values[sr->pos][i]) : ("," + sr->n->values[sr->pos][i]));
@@ -92,15 +93,15 @@ int main(int argc, char *argv[])
 
                     // cout << command << "# " << key1 << " " << key2 << endl;
                     vector < SearchResult* > result = searchKeyRangeBTree(bt, key1, key2);
-                    if (result.size() == 2 && result[0] != NULL && result[1] != NULL)
+                    if ((int)result.size() == 2 && result[0] != NULL && result[1] != NULL)
                     {
                         int offset = result[0]->pos;
                         LeafNode* startNode = result[0]->n;
                         while (startNode != result[1]->n)
                         {
-                            for (int i = offset; i < startNode->keys.size(); i++)
+                            for (int i = offset; i < (int)startNode->keys.size(); i++)
                             {
-                                for (int j = 0; j < startNode->values[i].size(); j++)
+                                for (int j = 0; j < (int)startNode->values[i].size(); j++)
                                 {
                                     // cout << "(";
                                     // cout << startNode->keys[i];
@@ -121,9 +122,9 @@ int main(int argc, char *argv[])
 
                         int end = result[1]->pos;
                         {
-                            for (int i = 0; i < result[1]->n->keys.size() && i <= end; i++)
+                            for (int i = 0; i < (int)result[1]->n->keys.size() && i <= end; i++)
                             {
-                                for (int j = 0; j < result[1]->n->values[i].size(); j++)
+                                for (int j = 0; j < (int)result[1]->n->values[i].size(); j++)
                                 {    
                                     // cout << "(";
                                     // cout << result[1]->n->keys[i];
@@ -134,7 +135,7 @@ int main(int argc, char *argv[])
                                     opFile << result[1]->n->keys[i];
                                     opFile << ",";
                                     opFile << result[1]->n->values[i][j];
-                                    opFile << ")" << ((i < (result[1]->n->keys.size() - 1) && i < end) ? "," : "");                                    
+                                    opFile << ")" << ((i < ((int)result[1]->n->keys.size() - 1) && i < end) ? "," : "");                                    
                                 }
                             }               
                         }

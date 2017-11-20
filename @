@@ -1,7 +1,6 @@
 /* Operations for BTree */
 
 #include <cmath>
-#include <cstdio>
 
 #include <iostream>
 #include <string>
@@ -87,7 +86,7 @@ Node* insertIntoBTreeNode(Node* n, int m, double key, string value)
         bool iskeyPresent = false;
 
         // check if a key is present in the leaf node and find its position
-        for (; pos < (int)ln->keys.size(); pos++)
+        for (; pos < ln->keys.size(); pos++)
         {
             if (ln->keys[pos] > key)
             {
@@ -117,13 +116,13 @@ Node* insertIntoBTreeNode(Node* n, int m, double key, string value)
             ln->children.push_back(NULL);
             
             // if only one key is present after insertion of key then add two null children 
-            if ((int)ln->keys.size() == 1)
+            if (ln->keys.size() == 1)
             {
                 ln->children.push_back(NULL);
             }
 
             // shift the new key, value to the correct position in the sorted array
-            for (int i = (int)n->keys.size() - 1; i > pos; i--)
+            for (int i = n->keys.size() - 1; i > pos; i--)
             {
                 double tempKey = ln->keys[i];
                 ln->keys[i] = ln->keys[i - 1];
@@ -139,7 +138,7 @@ Node* insertIntoBTreeNode(Node* n, int m, double key, string value)
             }
 
             // check if the size of the node has reached limit
-            if ((int)ln->keys.size() == m)
+            if (ln->keys.size() == m)
             {
                 // split the node, find the pos for which the key is moved up
                 int splitPos = (int)((m - 1) / 2);
@@ -164,7 +163,7 @@ Node* insertIntoBTreeNode(Node* n, int m, double key, string value)
                 newParentNode->children.push_back(newLeafNode);
                 newParentNode->keys.push_back(ln->keys[splitPos]);
 
-                while ((int)ln->keys.size() != splitPos)
+                while (ln->keys.size() != splitPos)
                 {
                     ln->keys.pop_back();
                     ln->children.pop_back();
@@ -185,7 +184,7 @@ Node* insertIntoBTreeNode(Node* n, int m, double key, string value)
         // insert into a non leaf node
         int pos = 0;
         bool iskeyPresent = false;
-        for (; pos < (int)n->keys.size(); pos++)
+        for (; pos < n->keys.size(); pos++)
         {
             if (n->keys[pos] > key)
             {
@@ -215,7 +214,7 @@ Node* insertIntoBTreeNode(Node* n, int m, double key, string value)
             }
             else
             {
-                if ((int)newChildRoot->keys.size() != 1)
+                if (newChildRoot->keys.size() != 1)
                 {
                     cout << "Error: New node has more than 1 keys" << endl;
                 }
@@ -223,7 +222,7 @@ Node* insertIntoBTreeNode(Node* n, int m, double key, string value)
                 {
                     n->children.push_back(newChildRoot->children[1]);
                     n->keys.push_back(newChildRoot->keys[0]);
-                    for (int i = (int)n->keys.size() - 1; i > pos; i--)
+                    for (int i = n->keys.size() - 1; i > pos; i--)
                     {
                         double tempKey = n->keys[i];
                         n->keys[i] = n->keys[i - 1];
@@ -234,7 +233,7 @@ Node* insertIntoBTreeNode(Node* n, int m, double key, string value)
                         n->children[i] = tempChild;
                     }
 
-                    if ((int)n->keys.size() == m)
+                    if (n->keys.size() == m)
                     {
                         int splitPos = (int)((m - 1) / 2);
                         Node* newSplitNode = initializeNode();
@@ -250,7 +249,7 @@ Node* insertIntoBTreeNode(Node* n, int m, double key, string value)
                         newParentNode->children.push_back(newSplitNode);
                         newParentNode->keys.push_back(n->keys[splitPos]);
         
-                        while ((int)n->keys.size() != splitPos)
+                        while (n->keys.size() != splitPos)
                         {
                             n->keys.pop_back();
                             n->children.pop_back();
@@ -323,7 +322,7 @@ vector < SearchResult* > searchKeyRangeBTree(BTree* bt, double key1, double key2
 
     // if the first key is found just after the end of the keys in that node
     // shift the starting position to the next node
-    if (sr1->pos >= (int)sr1->n->values.size())
+    if (sr1->pos >= sr1->n->values.size())
     {
         sr1->n = sr1->n->rightNode;
         sr1->pos = 0;
@@ -340,7 +339,7 @@ SearchResult* searchKeyBTreeNode(Node* n, double key, bool isRange, bool isLess)
 {
     int pos = 0;
     bool iskeyPresent = false;
-    for (; pos < (int)n->keys.size(); pos++)
+    for (; pos < n->keys.size(); pos++)
     {
         if (n->keys[pos] > key)
         {
@@ -388,7 +387,7 @@ SearchResult* searchKeyBTreeNode(Node* n, double key, bool isRange, bool isLess)
 
 void printBTreeNode(Node* n)
 {
-    if (n == NULL || (int)n->keys.size() == 0)
+    if (n == NULL || n->keys.size() == 0)
     {
         return;
     }
@@ -397,13 +396,13 @@ void printBTreeNode(Node* n)
     {
         LeafNode* ln = (LeafNode*)n;
         cout << "(";
-        for (int i = 0; i < (int)ln->keys.size(); i++)
+        for (int i = 0; i < ln->keys.size(); i++)
         {            
             cout << ln->keys[i] << "# ";
             cout << "$";
-            for (int j = 0; j < (int)ln->values[i].size(); j++)
+            for (int j = 0; j < ln->values[i].size(); j++)
             {
-                cout << ln->values[i][j] << ((j != ((int)ln->values[i].size() - 1)) ? ", " : "");
+                cout << ln->values[i][j] << ((j != (ln->values[i].size() - 1)) ? ", " : "");
             }
             cout << "$ ";
         }
@@ -413,14 +412,14 @@ void printBTreeNode(Node* n)
     else
     {
         cout << "(";
-        for (int i = 0; i < (int)n->keys.size(); i++)
+        for (int i = 0; i < n->keys.size(); i++)
         {
             cout << ((n->children[i] != NULL) ? "| " : "* ");            
             cout << n->keys[i] << "# ";
         }
         cout << ((n->children[n->keys.size()] != NULL) ? "| " : "* ");
         cout << ")" << endl;
-        for (int i = 0; i < (int)n->children.size(); i++)
+        for (int i = 0; i < n->children.size(); i++)
         {
             printBTreeNode(n->children[i]);
         }
