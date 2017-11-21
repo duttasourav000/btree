@@ -1,5 +1,7 @@
 BTreeTest/
 LocalDebugCom.txt
+output_file.txt
+treesearch
 
 *.o
 *.exe
