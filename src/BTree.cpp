@@ -150,7 +150,7 @@ int main(int argc, char *argv[])
                     // cout << endl;
                     opFile << endl;
 
-                    printBTree(bt, true);
+                    // printBTree(bt, true);
                 }
             }
         }
