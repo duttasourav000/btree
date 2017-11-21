@@ -8,8 +8,8 @@
 #include <string>
 #include <vector>
 
-#include "BTreeTypeDefinitions.h"
-#include "Helper.h"
+#include "../include/BTreeTypeDefinitions.h"
+#include "../include/Helper.h"
 
 using namespace std;
 
