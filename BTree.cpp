@@ -155,7 +155,7 @@ int main(int argc, char *argv[])
             }
         }
 
-        printBTree(bt, true);
+        // printBTree(bt, true);
 
         ipFile.close();
         opFile.close();
