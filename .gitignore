@@ -1,2 +1,5 @@
 BTreeTest/
 LocalDebugCom.txt
+
+*.o
+*.exe

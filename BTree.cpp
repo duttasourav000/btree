@@ -95,6 +95,7 @@ int main(int argc, char *argv[])
                     vector < SearchResult* > result = searchKeyRangeBTree(bt, key1, key2);
                     if ((int)result.size() == 2 && result[0] != NULL && result[1] != NULL)
                     {
+                        // cout << result[0]->pos << " " << result[1]->pos << endl;
                         int offset = result[0]->pos;
                         LeafNode* startNode = result[0]->n;
                         while (startNode != result[1]->n)
@@ -122,7 +123,7 @@ int main(int argc, char *argv[])
 
                         int end = result[1]->pos;
                         {
-                            for (int i = 0; i < (int)result[1]->n->keys.size() && i <= end; i++)
+                            for (int i = offset; i < (int)result[1]->n->keys.size() && i <= end; i++)
                             {
                                 for (int j = 0; j < (int)result[1]->n->values[i].size(); j++)
                                 {    
@@ -148,9 +149,13 @@ int main(int argc, char *argv[])
 
                     // cout << endl;
                     opFile << endl;
+
+                    printBTree(bt, true);
                 }
             }
         }
+
+        printBTree(bt, true);
 
         ipFile.close();
         opFile.close();

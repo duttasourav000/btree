@@ -32,8 +32,8 @@ struct SearchResult
 BTree* initializeBTree(int m);
 int insertBTree(BTree* bt, double key, string data);
 Node* insertIntoBTreeNode(Node* n, int m, double key, string value);
-void printBTree(BTree* bt);
-void printBTreeNode(Node* n);
+void printBTree(BTree* bt, bool onlyLeafNode);
+void printBTreeNode(Node* n, bool onlyLeafNode);
 SearchResult* searchKeyBTree(BTree* bt, double key);
 SearchResult* searchKeyBTreeNode(Node* bt, double key, bool isRange, bool isLess);
 vector < SearchResult* > searchKeyRangeBTree(BTree* bt, double key1, double key2);

@@ -7,6 +7,7 @@
 #include <string>
 
 #include "BTreeTypeDefinitions.h"
+#include "Helper.h"
 
 using namespace std;
 
@@ -83,22 +84,10 @@ Node* insertIntoBTreeNode(Node* n, int m, double key, string value)
     {
         // insert in leaf node
         LeafNode* ln = (LeafNode*)n;
-        int pos = 0;
-        bool iskeyPresent = false;
 
         // check if a key is present in the leaf node and find its position
-        for (; pos < (int)ln->keys.size(); pos++)
-        {
-            if (ln->keys[pos] > key)
-            {
-                break;
-            }
-            else if (ln->keys[pos] == key)
-            {
-                iskeyPresent = true;
-                break;
-            }
-        }
+        int pos = searchArray(ln->keys, key);
+        bool iskeyPresent = pos >=0 && pos < (int)ln->keys.size() && (compareValues(ln->keys[pos], key) == 0);
 
         if (iskeyPresent)
         {
@@ -183,20 +172,8 @@ Node* insertIntoBTreeNode(Node* n, int m, double key, string value)
     else
     {
         // insert into a non leaf node
-        int pos = 0;
-        bool iskeyPresent = false;
-        for (; pos < (int)n->keys.size(); pos++)
-        {
-            if (n->keys[pos] > key)
-            {
-                break;
-            }
-            else if (n->keys[pos] == key)
-            {
-                iskeyPresent = true;
-                break;
-            }
-        }
+        int pos = searchArray(n->keys, key);
+        bool iskeyPresent = pos >=0 && pos < (int)n->keys.size() && (compareValues(n->keys[pos], key) == 0);
 
         if (iskeyPresent)
         {
@@ -271,9 +248,9 @@ Node* insertIntoBTreeNode(Node* n, int m, double key, string value)
 }
 
 /* print BTree */
-void printBTree(BTree* bt)
+void printBTree(BTree* bt, bool onlyLeafNode)
 {
-    printBTreeNode(bt->root);
+    printBTreeNode(bt->root, onlyLeafNode);
 }
 
 /* Search for a key in BTree */
@@ -290,6 +267,7 @@ SearchResult* searchKeyBTree(BTree* bt, double key)
 /* Search for a range in a BTree */
 vector < SearchResult* > searchKeyRangeBTree(BTree* bt, double key1, double key2)
 {
+    // cout << "R " << key1 << " " << key2 << endl;
     vector < SearchResult* > result;
 
     if (bt->root == NULL)
@@ -298,7 +276,7 @@ vector < SearchResult* > searchKeyRangeBTree(BTree* bt, double key1, double key2
     }
 
     // swap keys if second is less than the first in the search range
-    if (key1 > key2)
+    if (compareValues(key1, key2) > 0)
     {
         double tempKey = key1;
         key1 = key2;
@@ -312,15 +290,20 @@ vector < SearchResult* > searchKeyRangeBTree(BTree* bt, double key1, double key2
     // return empty result if any one key is out of the tree boundaries
     if (sr1 == NULL || sr2 == NULL)
     {
+        // cout << key1 << " " << key2 << endl;
+        // cout << (sr1 == NULL) << " " << (sr2 == NULL) << endl;
         return result;
     }
 
     // if the pos of the second key is found before the first key then return empty
-    if (sr1->n == sr2->n && sr1->pos < sr2->pos)
+    if (sr1->n == sr2->n && sr2->pos < sr1->pos)
     {
+        // cout << key1 << " " << key2 << endl;
+        // cout << sr1->pos << " " << sr2->pos << endl;
         return result;
     }
 
+    // cout << sr1->pos << " " << sr2->pos << endl;
     // if the first key is found just after the end of the keys in that node
     // shift the starting position to the next node
     if (sr1->pos >= (int)sr1->n->values.size())
@@ -338,21 +321,10 @@ vector < SearchResult* > searchKeyRangeBTree(BTree* bt, double key1, double key2
 /* Search a BTree Node */
 SearchResult* searchKeyBTreeNode(Node* n, double key, bool isRange, bool isLess)
 {
-    int pos = 0;
-    bool iskeyPresent = false;
-    for (; pos < (int)n->keys.size(); pos++)
-    {
-        if (n->keys[pos] > key)
-        {
-            break;
-        }
-        else if (n->keys[pos] == key)
-        {
-            iskeyPresent = true;
-            break;
-        }
-    }
+    int pos = searchArray(n->keys, key);
+    bool iskeyPresent = pos >=0 && pos < (int)n->keys.size() && (compareValues(n->keys[pos], key) == 0);
 
+    // cout << "Node " << pos << " " << iskeyPresent << endl;
     if (n->type == 1)
     {
         // if leaf node then create search result and return
@@ -386,7 +358,7 @@ SearchResult* searchKeyBTreeNode(Node* n, double key, bool isRange, bool isLess)
     }
 }
 
-void printBTreeNode(Node* n)
+void printBTreeNode(Node* n, bool onlyLeafNode = false)
 {
     if (n == NULL || (int)n->keys.size() == 0)
     {
@@ -412,17 +384,21 @@ void printBTreeNode(Node* n)
     }
     else
     {
-        cout << "(";
-        for (int i = 0; i < (int)n->keys.size(); i++)
+        if (!onlyLeafNode)
         {
-            cout << ((n->children[i] != NULL) ? "| " : "* ");            
-            cout << n->keys[i] << "# ";
+            cout << "(";
+            for (int i = 0; i < (int)n->keys.size(); i++)
+            {
+                cout << ((n->children[i] != NULL) ? "| " : "* ");            
+                cout << n->keys[i] << "# ";
+            }
+            cout << ((n->children[n->keys.size()] != NULL) ? "| " : "* ");
+            cout << ")" << endl;
         }
-        cout << ((n->children[n->keys.size()] != NULL) ? "| " : "* ");
-        cout << ")" << endl;
+
         for (int i = 0; i < (int)n->children.size(); i++)
         {
-            printBTreeNode(n->children[i]);
+            printBTreeNode(n->children[i], onlyLeafNode);
         }
     }
 
