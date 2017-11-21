@@ -1,3 +1,10 @@
-Value1,Value67
-(-3.91,Value54609),(0.02,Value98),(3.55,Value1),(3.55,Value67),(4.01,Value10)
+Value41
+Null
+Value113, Value149, Value184, Value212
+Null
+Value7219
+Null
+Null
+Value9957, Value9983
+Value9952
 Null

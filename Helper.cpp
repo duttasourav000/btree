@@ -1,3 +1,7 @@
+#include <cmath>
+#include <cstdio>
+
+#include <fstream>
 #include <sstream>
 #include <string>
 
@@ -23,4 +27,19 @@ double stringToDouble(string s)
     ss >> d;
 
     return d;
+}
+
+void toPrecisionOneForInt(ofstream& file, double d)
+{
+    double intpart;
+    if (modf (d , &intpart) == 0)
+    {
+        char buffer[50];
+        sprintf(buffer, "%.1f", d);
+        file << buffer;
+    }
+    else
+    {
+        file << d;
+    }
 }

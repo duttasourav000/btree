@@ -23,13 +23,6 @@ int stringToInt(string s)
 }
 
 int main() {
-//    ofstream fout ("ride.out");
-//    ifstream fin ("ride.in");
-//    int a, b;
-//    fin >> a >> b;
-//    fout << a+b << endl;
-//    return 0;
-
     char ipFileName[] = "input.txt";
     ifstream ipFile (ipFileName);
     
