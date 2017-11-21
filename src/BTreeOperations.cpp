@@ -33,7 +33,7 @@ Node* initializeNode()
 LeafNode* initializeLeafNode()
 {
     LeafNode* ln = new LeafNode;
-    // lead node has type set to 1
+    // leaf node has type set to 1
     ln->type = 1;
     ln->leftNode = NULL;
     ln->rightNode = NULL;
@@ -133,7 +133,7 @@ Node* insertIntoBTreeNode(Node* n, int m, double key, string value)
                 // split the node, find the pos for which the key is moved up
                 int splitPos = (int)((m - 1) / 2);
 
-                // create a new lead node and copy elements after the splitPos
+                // create a new leaf node and copy elements after the splitPos
                 LeafNode* newLeafNode = initializeLeafNode();
                 newLeafNode->rightNode = ln->rightNode;
                 ln->rightNode = newLeafNode;
@@ -194,10 +194,13 @@ Node* insertIntoBTreeNode(Node* n, int m, double key, string value)
             {
                 if ((int)newChildRoot->keys.size() != 1)
                 {
+                    // error is the new node returned has more than one keys as only one key is present in the
+                    // new parent node formed as a result of split
                     cout << "Error: New node has more than 1 keys" << endl;
                 }
                 else
                 {
+                    // accomodating the new node formed as a result of spliting a child node
                     n->children.push_back(newChildRoot->children[1]);
                     n->keys.push_back(newChildRoot->keys[0]);
                     for (int i = (int)n->keys.size() - 1; i > pos; i--)
@@ -211,6 +214,7 @@ Node* insertIntoBTreeNode(Node* n, int m, double key, string value)
                         n->children[i] = tempChild;
                     }
 
+                    // split current node if it overflows
                     if ((int)n->keys.size() == m)
                     {
                         int splitPos = (int)((m - 1) / 2);

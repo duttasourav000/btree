@@ -13,7 +13,7 @@
 
 using namespace std;
 
-/* Converts string to int */
+/* Takes a string as input and returns an int. */
 int stringToInt(string s)
 {
     stringstream ss(s);
@@ -23,7 +23,7 @@ int stringToInt(string s)
     return i;
 }
 
-/* Converts string to double */
+/* Takes a string as input and returns a double. */
 double stringToDouble(string s)
 {
     stringstream ss(s);
@@ -33,6 +33,7 @@ double stringToDouble(string s)
     return d;
 }
 
+/* It is used to print values with atleast one decimal digit. By default 13.0 is printed as 13 and not 13.0. */
 void toPrecisionOneForInt(ofstream& file, double d)
 {
     double intpart;
@@ -48,6 +49,7 @@ void toPrecisionOneForInt(ofstream& file, double d)
     }
 }
 
+/* Compares double value and return 0 (equal) if they are within EPSILON, -1 if d1 < d2 and +1 if d1 > d2. */
 int compareValues(double d1, double d2)
 {
     double diff = d1 - d2;
@@ -64,6 +66,7 @@ int compareValues(double d1, double d2)
     return 1;
 }
 
+/* Does a binary search on the given array for the value d and range and returns the positon. */
 int searchArrayRange(vector < double > array, double d, int start, int end)
 {
     if (end < start)
@@ -86,6 +89,7 @@ int searchArrayRange(vector < double > array, double d, int start, int end)
     return searchArrayRange(array, d, m + 1, end);
 }
 
+/* Does a binary search on the given array for the value d and returns the positon. */
 int searchArray(vector < double > array, double d)
 {
     if (array.size() == 0)
