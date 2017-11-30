@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
                         for (int i = 0; i < (int)sr->n->values[sr->pos].size(); i++)
                         {
                             // cout << ((i == 0) ? (sr->n->values[sr->pos][i]) : ("," + sr->n->values[sr->pos][i]));
-                            opFile << ((i == 0) ? (sr->n->values[sr->pos][i]) : (", " + sr->n->values[sr->pos][i]));
+                            opFile << ((i == 0) ? (sr->n->values[sr->pos][i]) : ("," + sr->n->values[sr->pos][i]));
                         }
                     }
                     else
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
                                     toPrecisionOneForInt(opFile, startNode->keys[i]);
                                     opFile << ",";
                                     opFile << startNode->values[i][j];
-                                    opFile << "), ";
+                                    opFile << "),";
                                 }
                             }
 
@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
                                     toPrecisionOneForInt(opFile, result[1]->n->keys[i]);
                                     opFile << ",";
                                     opFile << result[1]->n->values[i][j];
-                                    opFile << ")" << ((i < ((int)result[1]->n->keys.size() - 1) && i < end) ? ", " : "");                                    
+                                    opFile << ")" << ((i < ((int)result[1]->n->keys.size() - 1) && i < end) ? "," : "");                                    
                                 }
                             }               
                         }
